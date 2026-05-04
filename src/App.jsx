@@ -5,7 +5,15 @@ function App() {
 
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + "/clientes")
-      .then(res => res.json())
+      .then(res => res.text())
+      .then(text => {
+        try {
+          return JSON.parse(text);
+        } catch (err) {
+          console.error("Error al parsear respuesta:", err);
+          return [];
+        }
+      })
       .then(data => setClientes(data));
   }, []);
 
